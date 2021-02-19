@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"syscall"
 )
 
@@ -13,11 +15,19 @@ func istty(fd int) (bool, error) {
 }
 
 func main() {
-	for i := 0; i < 3; i++ {
-		r, err := istty(i)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("%t\n", r)
+
+	arg, err := strconv.Atoi(os.Args[1])
+	check(err)
+
+	r, err := istty(arg)
+	check(err)
+
+	fmt.Printf("%t\n", r)
+
+}
+
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
 	}
 }
